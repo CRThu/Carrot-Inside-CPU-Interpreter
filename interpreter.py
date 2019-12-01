@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# interpreter for crt4004 ROM
+# interpreter for crt4004 crt8008 ROM
 # version 1.2
 
 import sys
 import math
+
+# Folder Path
+FILE_PATH = "./files/"
 
 # OP
 OP_RTYPE = '000000'
@@ -209,7 +212,7 @@ def main():
     try:
         asm_path = sys.argv[1]
     except IndexError:
-        asm_path = 'rom_raw.txt'
+        asm_path = FILE_PATH + 'rom_raw.txt'
 
     # read output dat file name
     dat_path = asm_path.replace('.txt', '.dat')
@@ -221,9 +224,9 @@ def main():
     if mif_path.rfind('.mif') == -1:
         mif_path += '.mif'
 
-    print('input txt file path:\t' + asm_path)
-    print('output dat file path:\t' + dat_path)
-    print('output mif file path:\t' + mif_path)
+    print('input  txt path:\t' + asm_path)
+    print('output dat path:\t' + dat_path)
+    print('output mif path:\t' + mif_path)
 
     # read asm file
     read_asm_file = open(asm_path)
@@ -237,13 +240,13 @@ def main():
         if asm_instr == '':
             asm_instr_list.remove(asm_instr)
 
-    print('file instruction list:\t', end='')
+    print('file list:\t', end='')
     print(asm_instr_list)
 
     # split instruction
     asm_instr_element_list = [i.split() for i in asm_instr_list]
 
-    print('asm instruction list:\t', end='')
+    print('asm list:\t', end='')
     print(asm_instr_element_list)
 
     # interpreter to asm
@@ -251,7 +254,7 @@ def main():
     # output format
     out_instr_list = [format_bin_to_out(bin_instr) for bin_instr in bin_instr_list]
 
-    print('%s instruction list:\t' % ('bin' if not _FORMAT_BIN_TO_HEX_ else 'hex'), end='')
+    print('%s list:\t' % ('bin' if not _FORMAT_BIN_TO_HEX_ else 'hex'), end='')
     print(out_instr_list)
 
     # write dat file
@@ -266,7 +269,7 @@ def main():
     for bin_instr in bin_instr_list:
         mif_file_gen.append_instructions(bin_instr)
 
-    print('mif file list:\t\t\t', end='')
+    print('mif list:\t', end='')
     print(mif_file_gen.read_lines())
 
     mif_file_gen.write_lines()
