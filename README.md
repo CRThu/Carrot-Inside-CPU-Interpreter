@@ -1,2 +1,3 @@
-# carrot_inside_cpu_interpreter
- carrot's cpu interpreter
+# Carrot Inside CPU Interpreter
+
+carrot's cpu interpreter for crt4004 and crt8008
