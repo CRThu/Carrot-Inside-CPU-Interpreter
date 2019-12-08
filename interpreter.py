@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import sys
+import math
+import re
+
 INTERPRETER_NAME = 'Carrot Inside CPU Interpreter'
 INTERPRETER_INTRODUCTION = 'carrot\'s cpu interpreter for crt4004 and crt8008'
 INTERPRETER_VERSION = 'Version 1.3'
 INTERPRETER_WEBSITE = 'https://github.com/CRThu/Carrot-Inside-CPU-Interpreter'
-
-import sys
-import math
 
 # Folder Path
 FILE_PATH = "./files/"
@@ -28,14 +29,14 @@ R_OR = '100101'
 R_SLT = '101010'
 
 # DEFINE
-#_FORMAT_WORD_TO_BYTE_ = False
+# _FORMAT_WORD_TO_BYTE_ = False
 _FORMAT_BIN_TO_HEX_ = True
 _FORMAT_HEX_UPPERCASE_ = True
 
 
 # Convert '123' to '7b'
 def dec_str_to_hex_div4(dec_str):
-    return format(math.floor(int(dec_str, 10)/4), 'x')
+    return format(math.floor(int(dec_str, 10) / 4), 'x')
 
 
 # Convert '123' to '01111011' (fill zero)
@@ -178,29 +179,31 @@ class mif_file_gen_class(object):
 
     # write instructions
     # '00:FFFFFFFF;'
-    def append_instructions(self, bin_instr,instr_line_num):
-        if bin_instr[0] == '{' and bin_instr[-1] == '}':    # Known Error
+    def append_instructions(self, bin_instr, instr_line_num):
+        if bin_instr[0] == '{' and bin_instr[-1] == '}':  # Known Error
             self.mif_lines.insert(-1, bin_instr)
             self.rom_addr += 1
             self.error_list.append('')
             self.error_list.append('*** ERROR: INTERNAL ERROR FROM ASM INTERPRETER! ***')
-            self.error_list.append('*** '+ bin_instr +' in LINE = '+ str(instr_line_num) +', PC_WORD = '+ str(self.rom_addr) +'. ***')
+            self.error_list.append('*** ' + bin_instr + ' in LINE = ' + str(instr_line_num) + ', PC_WORD = ' + str(
+                self.rom_addr) + '. ***')
 
-        elif bin_instr[0] == '@':                           # Jump to address
+        elif bin_instr[0] == '@':  # Jump to address
             self.rom_addr = int(bin_instr[1:], 16)
 
-        elif len(bin_instr) == 32:                          # Instructions
+        elif len(bin_instr) == 32:  # Instructions
             self.mif_lines.insert(-1, format(self.rom_addr, 'x').zfill(math.ceil(math.log(self.mif_depth, 16))) + ':'
                                   + format(int(bin_instr, 2), 'X' if _FORMAT_HEX_UPPERCASE_ else 'x').zfill(
                 math.ceil(self.mif_width / 8 * 2)) + ';')
             self.rom_addr += 1
 
-        else:                                               # Unknown Error
+        else:  # Unknown Error
             self.mif_lines.insert(-1, '*ERROR: {unknown}*')
             self.rom_addr += 1
             self.error_list.append('')
             self.error_list.append('*** ERROR: UNKNOWN INSTRUCTION! ***')
-            self.error_list.append('*** unknown instructions in LINE = '+ str(instr_line_num) +', PC_WORD = '+ self.rom_addr +'. ***')
+            self.error_list.append(
+                '*** unknown instructions in LINE = ' + str(instr_line_num) + ', PC_WORD = ' + self.rom_addr + '. ***')
 
     # write mif file end
     def append_ender(self):
@@ -216,7 +219,8 @@ class mif_file_gen_class(object):
         if self.rom_addr >= self.mif_depth:
             self.error_list.append('')
             self.error_list.append('*** ERROR: INSTRUCTION TO MUCH FOR ROM! ***')
-            self.error_list.append('*** PC_WORD('+ str(self.rom_addr) +') > ROM_DEPTH('+ str(self.mif_depth) + ') ***')
+            self.error_list.append(
+                '*** PC_WORD(' + str(self.rom_addr) + ') > ROM_DEPTH(' + str(self.mif_depth) + ') ***')
 
         self.open()
         for mif_line in self.mif_lines:
@@ -238,19 +242,19 @@ def main():
     try:
         asm_path = FILE_PATH + sys.argv[1]
     except IndexError:
-        asm_path = FILE_PATH + 'rom_raw.txt'
+        asm_path = FILE_PATH + 'rom_raw.asm'
 
-    # read input txt file name
-    if asm_path.rfind('.txt') == -1:
-        asm_path += '.txt'
+    # read input asm file name
+    if asm_path.rfind('.asm') == -1:
+        asm_path += '.asm'
 
     # generate output dat file name
-    dat_path = asm_path.replace('.txt', '.dat')
+    dat_path = asm_path.replace('.asm', '.dat')
 
     # generate output mif file name
-    mif_path = asm_path.replace('.txt', '.mif')
+    mif_path = asm_path.replace('.asm', '.mif')
 
-    print('input  txt path:\t' + asm_path)
+    print('input  asm path:\t' + asm_path)
     print('output dat path:\t' + dat_path)
     print('output mif path:\t' + mif_path)
     print()
@@ -259,7 +263,9 @@ def main():
     read_asm_file = open(asm_path)
 
     # preprocess
-    asm_instr_list = [i.replace('\r', '').replace('\n', '').replace('\t', ' ') for i in read_asm_file.readlines()]
+    asm_instr_list = [re.sub(r'[\r\n\t]', '', i) for i in read_asm_file.readlines()]    # delete ctrl characters
+    asm_instr_list = [re.sub(r'\s+', ' ', i) for i in asm_instr_list]                   # delete spaces
+    asm_instr_list = [i.split(';')[0].strip() for i in asm_instr_list]                  # delete annotations
 
     read_asm_file.close()
 
@@ -267,11 +273,11 @@ def main():
         if asm_instr == '':
             asm_instr_list.remove(asm_instr)
 
-    print('file list:\t', end='')
+    print('raw list:\t', end='')
     print(asm_instr_list)
 
     # split instruction
-    asm_instr_element_list = [i.split() for i in asm_instr_list]
+    asm_instr_element_list = [re.split(r'[^0-9|a-z|A-Z|$]+', i) for i in asm_instr_list]    # split elements
 
     print('asm list:\t', end='')
     print(asm_instr_element_list)
@@ -296,7 +302,7 @@ def main():
     iter_index = 0
     for bin_instr in bin_instr_list:
         iter_index += 1
-        mif_file_gen.append_instructions(bin_instr,iter_index)
+        mif_file_gen.append_instructions(bin_instr, iter_index)
 
     print('mif list:\t', end='')
     print(mif_file_gen.read_lines())
