@@ -47,7 +47,7 @@ def dec_str_to_bin(dec_str, bin_len):
 # ASM to BIN
 def asm_interpreter(asm_instr):
     bin_instr = ""
-    if asm_instr[0] == 'PC':
+    if asm_instr[0] == 'LOCATE':
         bin_instr = '@' + dec_str_to_hex_div4(asm_instr[1])
     elif asm_instr[0] == 'ADD':
         bin_instr = (OP_RTYPE
@@ -83,9 +83,9 @@ def asm_interpreter(asm_instr):
                      + dec_str_to_bin(asm_instr[3], 16))
     elif asm_instr[0] == 'NOP':
         bin_instr = (OP_NOP
-                     + '00000'
-                     + '00000'
-                     + '0000000000000000')
+                     + '11111'
+                     + '11111'
+                     + '1111111111111111')
     else:
         bin_instr = '{undefined instruction:' + str(asm_instr) + '}'
 

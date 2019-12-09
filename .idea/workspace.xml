@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9662c2f1-0ada-489c-90ab-5631e32fd663" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/files/input_asm_file.asm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SingleCycleCPU-crt4004-interpreter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SingleCycleCPU-crt4004-interpreter.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/input_asm_file.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/input_asm_file_with_nop.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/input_asm_file_with_nop.mif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/input_asm_file_with_nop.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/rom_raw.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/rom_raw.mif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/rom_raw.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/input_asm_file.asm" beforeDir="false" afterPath="$PROJECT_DIR$/files/input_asm_file.asm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/input_asm_file.dat" beforeDir="false" afterPath="$PROJECT_DIR$/files/input_asm_file.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/input_asm_file.mif" beforeDir="false" afterPath="$PROJECT_DIR$/files/input_asm_file.mif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interpreter.py" beforeDir="false" afterPath="$PROJECT_DIR$/interpreter.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Carrot_Inside_CPU_Interpreter$interpreter.coverage" NAME="interpreter Coverage Results" MODIFIED="1575826018875" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Carrot_Inside_CPU_Interpreter$interpreter.coverage" NAME="interpreter Coverage Results" MODIFIED="1575874176943" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="745001343">
@@ -45,26 +38,28 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="asm" value="1" />
           <entry key="py" value="1" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="PLAIN_TEXT" value="3" />
           <entry key="Python" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="384" />
+          <entry key="asm" value="315" />
+          <entry key="py" value="435" />
           <entry key="txt" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="56" />
-          <entry key="Python" value="384" />
+          <entry key="PLAIN_TEXT" value="371" />
+          <entry key="Python" value="435" />
         </counts>
       </usages-collector>
     </session>
@@ -74,8 +69,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/interpreter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="256" column="21" selection-start-line="256" selection-start-column="21" selection-end-line="256" selection-end-column="21" />
+            <state relative-caret-position="529">
+              <caret line="82" column="56" lean-forward="true" selection-start-line="82" selection-start-column="56" selection-end-line="82" selection-end-column="56" />
               <folding>
                 <element signature="e#48#58#0" expanded="true" />
               </folding>
@@ -86,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/files/input_asm_file.asm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+            <state relative-caret-position="216">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -101,6 +96,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>txt</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -109,6 +109,7 @@
       <list>
         <option value="$PROJECT_DIR$/files/input_asm_file.txt" />
         <option value="$PROJECT_DIR$/interpreter.py" />
+        <option value="$PROJECT_DIR$/files/input_asm_file.asm" />
       </list>
     </option>
   </component>
@@ -118,7 +119,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="939" />
     <option name="y" value="294" />
     <option name="width" value="1170" />
@@ -224,6 +225,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1935" height="1177" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23122004" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -260,15 +262,15 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/files/input_asm_file.asm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+        <state relative-caret-position="216">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/interpreter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="256" column="21" selection-start-line="256" selection-start-column="21" selection-end-line="256" selection-end-column="21" />
+        <state relative-caret-position="529">
+          <caret line="82" column="56" lean-forward="true" selection-start-line="82" selection-start-column="56" selection-end-line="82" selection-end-column="56" />
           <folding>
             <element signature="e#48#58#0" expanded="true" />
           </folding>
