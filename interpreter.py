@@ -7,7 +7,7 @@ import re
 
 INTERPRETER_NAME = 'Carrot Inside CPU Interpreter'
 INTERPRETER_INTRODUCTION = 'carrot\'s cpu interpreter for crt4004 and crt8008'
-INTERPRETER_VERSION = 'Version 1.3'
+INTERPRETER_VERSION = 'Version 1.4'
 INTERPRETER_WEBSITE = 'https://github.com/CRThu/Carrot-Inside-CPU-Interpreter'
 
 # Folder Path
@@ -20,6 +20,8 @@ OP_SW = '101011'
 OP_BEQ = '000100'
 OP_ADDI = '001000'
 OP_NOP = '111111'
+OP_SLL = '000010'
+OP_SRL = '000011'
 
 # R-TYPE
 R_ADD = '100000'
@@ -41,7 +43,15 @@ def dec_str_to_hex_div4(dec_str):
 
 # Convert '123' to '01111011' (fill zero)
 def dec_str_to_bin(dec_str, bin_len):
-    return format(int(dec_str, 10), 'b').zfill(bin_len)
+    if dec_str[0] == '-' and dec_str != '-0':
+        return true_to_complement_dec(dec_str[1:], bin_len)
+    else:
+        return format(int(dec_str, 10), 'b').zfill(bin_len)
+
+
+# Convert -4 to '252'
+def true_to_complement_dec(dec_str, bin_len):
+    return format(pow(2, bin_len) - int(dec_str, 10), 'b').zfill(bin_len)
 
 
 # ASM to BIN
@@ -78,6 +88,16 @@ def asm_interpreter(asm_instr):
                      + dec_str_to_bin(asm_instr[3], 16))
     elif asm_instr[0] == 'ADDI':
         bin_instr = (OP_ADDI
+                     + dec_str_to_bin(asm_instr[1].replace('$', ''), 5)
+                     + dec_str_to_bin(asm_instr[2].replace('$', ''), 5)
+                     + dec_str_to_bin(asm_instr[3], 16))
+    elif asm_instr[0] == 'SLL':
+        bin_instr = (OP_SLL
+                     + dec_str_to_bin(asm_instr[1].replace('$', ''), 5)
+                     + dec_str_to_bin(asm_instr[2].replace('$', ''), 5)
+                     + dec_str_to_bin(asm_instr[3], 16))
+    elif asm_instr[0] == 'SRL':
+        bin_instr = (OP_SRL
                      + dec_str_to_bin(asm_instr[1].replace('$', ''), 5)
                      + dec_str_to_bin(asm_instr[2].replace('$', ''), 5)
                      + dec_str_to_bin(asm_instr[3], 16))
@@ -203,7 +223,8 @@ class mif_file_gen_class(object):
             self.error_list.append('')
             self.error_list.append('*** ERROR: UNKNOWN INSTRUCTION! ***')
             self.error_list.append(
-                '*** unknown instructions in LINE = ' + str(instr_line_num) + ', PC_WORD = ' + self.rom_addr + '. ***')
+                '*** unknown instructions in LINE = ' + str(instr_line_num) + ', PC_WORD = ' + str(
+                    self.rom_addr) + '. ***')
 
     # write mif file end
     def append_ender(self):
@@ -263,9 +284,11 @@ def main():
     read_asm_file = open(asm_path)
 
     # preprocess
-    asm_instr_list = [re.sub(r'[\r\n\t]', '', i) for i in read_asm_file.readlines()]    # delete ctrl characters
-    asm_instr_list = [re.sub(r'\s+', ' ', i) for i in asm_instr_list]                   # delete spaces
-    asm_instr_list = [i.split(';')[0].strip() for i in asm_instr_list]                  # delete annotations
+    asm_instr_list = [re.sub(r'[\r\n\t]', '', i) for i in read_asm_file.readlines()]  # delete ctrl characters
+    while '' in asm_instr_list:
+        asm_instr_list.remove('')
+    asm_instr_list = [re.sub(r'\s+', ' ', i) for i in asm_instr_list]  # delete spaces
+    asm_instr_list = [i.split(';')[0].strip() for i in asm_instr_list]  # delete annotations
 
     read_asm_file.close()
 
@@ -277,7 +300,7 @@ def main():
     print(asm_instr_list)
 
     # split instruction
-    asm_instr_element_list = [re.split(r'[^0-9|a-z|A-Z|$]+', i) for i in asm_instr_list]    # split elements
+    asm_instr_element_list = [re.split(r'[^0-9|a-z|A-Z|$|-]+', i) for i in asm_instr_list]  # split elements
 
     print('asm list:\t', end='')
     print(asm_instr_element_list)
